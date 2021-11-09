@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Bag {
-    String name;
-    Random rand = new Random();
-    ArrayList<Integer> pebbles = new ArrayList<Integer>();
+    private String name;
+    private Random rand = new Random();
+    private ArrayList<Integer> pebbles = new ArrayList<Integer>();
 
     //constructor assigns name and fills from csv
     public Bag(String name, String filename) throws IOException {
@@ -24,18 +24,24 @@ public class Bag {
 
             //add each item into pebbles list
             for (String item:myList) {
+                item = item.replace(" ","");
                 addPebble(Integer.parseInt(item));
             }
         }
         //catch error
         catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File not found");
+            //print nono restart code
         }
     }
 
     //fill bag with another bag of pebbles, i.e when black bag empty
     public void fillBag(ArrayList<Integer> weights){
         this.pebbles=weights;
+    }
+
+    public void emptyBag(){
+        this.pebbles.clear();
     }
 
     //add a single pebble to bag
@@ -46,13 +52,9 @@ public class Bag {
     //remove a single pebble random from bag
     public int takePebble(){
         int weight = rand.nextInt(pebbles.size());
-        this.pebbles.remove(pebbles.indexOf(weight));
-        return weight;
-    }
-
-    //remove a single specific pebble from bag
-    public void takePebble(int weight){
-        this.pebbles.remove(pebbles.indexOf(weight));
+        int wweight = this.pebbles.get(weight);
+        this.pebbles.remove(weight);
+        return wweight;
     }
 
     //get name
